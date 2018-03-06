@@ -1,6 +1,13 @@
 This scraper is pretty basic. The point was to dabble a tad in web scraping
 using some of the more modern libraries available for Python.
 
+There is not yet error checking where there should be. I would also like to
+parse NOAA's webpage for the relevant locations first, before then offering
+those as choices. As it stands, this script just calls SLC and the more
+interesting towns in that pull are stored in a dictionary for the user to choose
+from. The script then finds those locations and pulls out the weather for the
+next seven days.
+
 The point was also to test out and practice some basic Git workflow actions
 such as 'fork', 'branch', and 'pull request'. Fun was had!
 
