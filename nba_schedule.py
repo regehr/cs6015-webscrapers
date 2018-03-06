@@ -1,4 +1,5 @@
-# Junchen Zhang
+# By: Junchen Zhang
+
 import urllib
 
 
@@ -63,4 +64,4 @@ def main(team):
 
 
 team_name = raw_input("Please enter an NBA team: ")
-main(team_name)
+main(team_name.split(" ")[0])
