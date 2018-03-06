@@ -14,7 +14,7 @@ for track in gpx.tracks:
             lat = str(point.latitude)
             lng = str(point.longitude)
             #website with personal key for what3words API located at https://docs.what3words.com/api/v2/#reverse-url
-            sp=BeautifulSoup(urllib2.urlopen(ws + lat +"%2C" + lng + "&key=11MF6OMW&lang=en&format=json&display=minimal").read(),"html5lib")
+            sp=BeautifulSoup(urllib2.urlopen(ws + lat +"%2C" + lng + "&key=" + key + "&lang=en&format=json&display=minimal").read(),"html5lib")
             dictionaryOfData = json.loads(sp.text);
             print(dictionaryOfData["words"])
             # print 'Point at ({0},{1}) -> {2}'.format(point.latitude, point.longitude, point.elevation)
