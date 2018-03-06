@@ -6,7 +6,7 @@ import urllib
 def main(team):
     url = "https://www.cbssports.com"
 
-    page = str(urllib.urlopen("https://www.cbssports.com/nba/teams/schedule/CLE/cleveland-cavaliers").read())
+    page = str(urllib.urlopen(url + "/nba/teams/schedule/CLE/cleveland-cavaliers").read())
 
     team_start = page.find("/option")
 
@@ -22,7 +22,7 @@ def main(team):
 
     page = str(urllib.urlopen(url).read())
 
-    time = page.find("scoreboard", team_end - 800)
+    time = page.find("PM<") - 625
     time_start = page.find(">", time) + 1
     time_end = page.find("<", time_start)
     time = page[time_start: time_end]
@@ -46,8 +46,9 @@ def main(team):
     time = page.find("scoreboard", result_end)
     time_start = page.find(">", time) + 1
     time_end = page.find("<", time_start)
-    opponent = page.find("page/", time_end) + 5
     time = page[time_start: time_end]
+    opponent = page.find("page/", time_end) + 5
+
     time_start = page.find("PM", team_end) - 10
     time_start = page.find(">", time_start) + 1
     time_end = page.find("<", time_start)
