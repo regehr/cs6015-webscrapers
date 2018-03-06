@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-import time, threading, datetime
-from threading import Thread
+import time, datetime, sys
+from multiprocessing import Pool
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
@@ -8,23 +8,31 @@ from selenium.common.exceptions import NoSuchElementException
 
 #include datetime
 now = datetime.datetime.now()
-date = ''
+currentDate = ''
+tripDate = ''
 month = now.month
+weekTripMonth = month
 day = now.day + 7
-if day > 31:
+weekTrip = day + 7
+if day > 30:
     month += 1
-    day = day % 31
+    day %= 30
+    weekTrip %= 30
+    month += 1
+    if month > 12:
+        month %= 12
+if weekTrip > 30:
+    weekTrip %=30
+    weekTripMonth += 1
+    if weekTripMonth > 12:
+        weekTripMonth %= 12
+
 year = now.year
-date += str(month) + "/" + str(day) + "/" + str(year)
+currentDate += str(month) + "/" + str(day) + "/" + str(year)
+tripDate += str(weekTripMonth) + "/" + str(weekTrip) + "/" + str(year)
 
-#https://intoli.com/blog/running-selenium-with-headless-chrome/
-#http://selenium-python.readthedocs.io/navigating.html
-#options = webdriver.ChromeOptions()
-#options.add_argument('headless')
-
-#seleniumDriver = webdriver.Chrome(executable_path=r'/Users/waldrich/python/chromeDriver', chrome_options = options)
 slc = 'Salt Lake City, UT'
-#sanFran = 'San Francisco, CA'  #commented out because it is searching for bay area airports
+
 coloradoSpring = 'Colorado Springs, CO'
 portland = 'Portland, OR'
 newMexico = 'Albuquerque, NM'
@@ -32,21 +40,28 @@ eugene = 'Eugene, OR'
 bayArea = 'San Diego, CA'
 denver = 'Denver, CO'
 vegas = 'Las Vegas, NV'
+newYork = 'New York, NY (JFK-Kennedy)'
+miami = 'Miami, FL (MIA-Miami Intl.)'
+newOrleans = 'New Orleans, LA'
+boston = 'Boston, MA'
 
-nationalCityList = [bayArea, coloradoSpring, denver, portland, newMexico, eugene, vegas]
+
+nationalCityList = [bayArea, coloradoSpring, denver, portland, newMexico, eugene, vegas, newYork, miami, newOrleans, boston]
 
 def navigateAlaskaAirlines(gotToCity, seleniumDriver):
     time.sleep(3) #ensure that the page loads before doing anything else
     seleniumDriver.find_element_by_id('oneWay').click()
-    # lock.acquire()
     seleniumDriver.find_element_by_id('fromCity1').send_keys(slc)
     time.sleep(1)
     seleniumDriver.find_element_by_id('toCity1').send_keys(gotToCity)
     time.sleep(1)
     departureDate = seleniumDriver.find_element_by_id('departureDate1')
     departureDate.clear()
-    departureDate.send_keys(date)
-    # lock.release()
+    departureDate.send_keys(currentDate)
+    # if !oneWay:
+    #     returnDate = seleniumDriver.find_element_by_id('returnDate')
+    #     returnDate.clear()
+    #     returnDate.send_keys(weekTrip)
     select = Select(seleniumDriver.find_element_by_id('adultCount'))
     select.select_by_visible_text('2 adults')
     time.sleep(1)
@@ -87,17 +102,16 @@ def printOutInformationAlaska(goThroughFlightInfo, cityGoingTo):
                 break
         prev = string
     # result = "\nALASKA AIRLINES: Todays price from " + slc + " to " + cityGoingTo + " is: " + cost + "\nThe Flight Time is: " + flightTime
-    print "\nALASKA AIRLINES: Todays price from " + slc + " to " + cityGoingTo + " is: " + cost + "\nThe Flight Time is: " + flightTime
+    print "\nALASKA AIRLINES: The price for: "+ currentDate +" from " + slc + " to " + cityGoingTo + " is: " + cost + "\nThe Flight Time is: " + flightTime
     if stops == '':
         # result = result + "\nThis flight has: 0 stops"
-        print "\nThis flight has: 0 stops"
+        print "This flight has: 0 stops"
     else:
         # result = result + "\nThis flight has: " + stops
         print "This flight has: " + stops
     # return result
 
-listOfResults = []
-
+#listOfResults = []
 def runAlaskaWithThreads(city):
     seleniumDriver = webdriver.Chrome(executable_path=r'/Users/waldrich/python/chromeDriver')
     seleniumDriver.get('https://www.alaskaair.com/')
@@ -106,21 +120,10 @@ def runAlaskaWithThreads(city):
         printOutInformationAlaska(navigateAlaskaAirlines(city, seleniumDriver), city)
     except NoSuchElementException:
         seleniumDriver.close()
+        # listOfResults.append("Unable to find: " + city + ". Or Website thinks your a robot and you should fix that." )
         print "Unable to find: " + city + ". Or Website thinks your a robot and you should fix that."
 
-lock = threading.Lock()
-# seleniumDriver = webdriver.Chrome(executable_path=r'/Users/waldrich/python/chromeDriver')
-# seleniumDriver.get('https://www.alaskaair.com/')
-threadList = []
-for city in nationalCityList:
-    t = Thread(target=runAlaskaWithThreads, args=(city,))
-    threadList.append(t)
-    t.start()
 
-for thread in threadList:
-    thread.join()
 
-# message = ''
-# for val in listOfResults:
-#     #message += val
-#     print val
+pool = Pool(processes=4)
+pool.map(runAlaskaWithThreads, nationalCityList)
