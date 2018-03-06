@@ -1,11 +1,12 @@
-# Junchen Zhang
+# By: Junchen Zhang
+
 import urllib
 
 
 def main(team):
     url = "https://www.cbssports.com"
 
-    page = str(urllib.urlopen("https://www.cbssports.com/nba/teams/schedule/CLE/cleveland-cavaliers").read())
+    page = str(urllib.urlopen(url + "/nba/teams/schedule/CLE/cleveland-cavaliers").read())
 
     team_start = page.find("/option")
 
@@ -21,11 +22,11 @@ def main(team):
 
     page = str(urllib.urlopen(url).read())
 
-    time = page.find("scoreboard", team_end - 800)
+    time = page.find("PM<") - 625
     time_start = page.find(">", time) + 1
     time_end = page.find("<", time_start)
     time = page[time_start: time_end]
-    print("Last game:\n" + "     Date:     " + time)
+    print("\nLast game:\n" + "Date:     " + time)
 
     opponent = page.find("page/", time_end) + 5
     opponent_start = page.find("/", opponent) + 1
@@ -34,24 +35,25 @@ def main(team):
     opponent = ""
     for data in opponents:
         opponent += data.capitalize() + " "
-    print("     Opponent: " + opponent)
+    print("Opponent: " + opponent)
 
     result = page.find("recap", opponent_end)
     result_start = page.find(">", result) + 1
     result_end = page.find("<", result_start)
     result = page[result_start: result_end]
-    print("     Result:   " + result)
+    print("Result:   " + result)
 
     time = page.find("scoreboard", result_end)
     time_start = page.find(">", time) + 1
     time_end = page.find("<", time_start)
-    opponent = page.find("page/", time_end) + 5
     time = page[time_start: time_end]
+    opponent = page.find("page/", time_end) + 5
+
     time_start = page.find("PM", team_end) - 10
     time_start = page.find(">", time_start) + 1
     time_end = page.find("<", time_start)
     time += ", " + page[time_start: time_end]
-    print("Next game:\n" + "     Time:     " + time)
+    print("\nNext game:\n" + "Time:     " + time)
 
     opponent_start = page.find("/", opponent) + 1
     opponent_end = page.find(">", opponent_start) - 1
@@ -59,8 +61,8 @@ def main(team):
     opponent = ""
     for data in opponents:
         opponent += data.capitalize() + " "
-    print("     Opponent: " + opponent)
+    print("Opponent: " + opponent + "\n")
 
 
 team_name = raw_input("Please enter an NBA team: ")
-main(team_name)
+main(team_name.split(" ")[0])
