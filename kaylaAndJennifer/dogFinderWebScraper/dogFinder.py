@@ -1,12 +1,13 @@
 #!/usr/bin/python
 from bs4 import BeautifulSoup
-import requests, sys
+import requests, sys, webbrowser
 
 if __name__ == '__main__':
     if sys.argv[1] == "AustralianShepards":
         shepardDogHumane = "https://www.utahhumane.org/adopt?f%5B0%5D=field_species%3A3&f%5B1%5D=field_primary_breed%3A63"
         shepardDogBestFriends = "https://bestfriends.org/adopt/adopt-our-sanctuary/dogs?field_animal_primary_breed_tid_selective=2991&field_animal_secondary_breed_tid_selective=All&field_animal_age_value_selective=All&field_animal_size_value_selective=All&field_animal_color_tid_selective=All&field_animal_sex_value_selective=All&title="
         shepardNuzzlesAndCo = "https://nuzzlesandco.org/adopt-a-pet/?species%5B%5D=Dog&gender%5B%5D&age_group%5B%5D&size%5B%5D&breed%5B%5D=Australian+Shepherd&wpv_post_id=969&wpv_view_count=855-CPID969&wpv_paged=1"
+
 
         print("-----------------Australian Shepards----------------")
         humaneReq = requests.get(shepardDogHumane)
@@ -15,7 +16,7 @@ if __name__ == '__main__':
         humaneDogCount = len(soup.find_all('div', class_="item"))
         numDogString = str(humaneDogCount)
         print("Humane Society: " + numDogString)
-        print(shepardDogHumane)
+        webbrowser.open_new(shepardDogHumane)
 
         print("------------------------------------------------------------")
         bfReq = requests.get(shepardDogBestFriends)
@@ -24,7 +25,7 @@ if __name__ == '__main__':
         bfDogCount = len(soup.find_all('div', class_="rg-animal"))
         eachDogStr = str(bfDogCount)
         print("Best Friends: " + eachDogStr)
-        print(shepardDogBestFriends)
+        webbrowser.open_new_tab(shepardDogBestFriends)
 
         print("------------------------------------------------------------")
         nuzzlesReq = requests.get(shepardNuzzlesAndCo)
@@ -33,7 +34,7 @@ if __name__ == '__main__':
         nuzzlesDogCount = len(soup.find_all('div', class_="pet-result-img"))
         strNuzz = str(nuzzlesDogCount)
         print("Nuzzles And Co: " + strNuzz)
-        print(shepardNuzzlesAndCo)
+        webbrowser.open_new_tab(shepardNuzzlesAndCo)
 
         print("------------------------------------------------------------")
         totalNumDogs = humaneDogCount + bfDogCount + nuzzlesDogCount
@@ -51,7 +52,7 @@ if __name__ == '__main__':
         humaneDogCount = len(soup.find_all('div', class_="item"))
         numDogString = str(humaneDogCount)
         print("Humane Society: " + numDogString)
-        print(pitBullHumane)
+        webbrowser.open_new(pitBullHumane)
 
         print("------------------------------------------------------------")
         bfReq = requests.get(pitBullBestFriends)
@@ -60,7 +61,7 @@ if __name__ == '__main__':
         bfDogCount = len(soup.find_all('div', class_="rg-animal"))
         eachDogStr = str(bfDogCount)
         print("Best Friends: " + eachDogStr)
-        print(pitBullBestFriends)
+        webbrowser.open_new_tab(pitBullBestFriends)
 
         print("------------------------------------------------------------")
         nuzzlesReq = requests.get(pitBullNuzzlesAndCo)
@@ -69,7 +70,7 @@ if __name__ == '__main__':
         nuzzlesDogCount = len(soup.find_all('div', class_="pet-result-img"))
         strNuzz = str(nuzzlesDogCount)
         print("Nuzzles And Co: " + strNuzz)
-        print(pitBullNuzzlesAndCo)
+        webbrowser.open_new_tab(pitBullNuzzlesAndCo)
 
         print("------------------------------------------------------------")
         totalNumDogs = humaneDogCount + bfDogCount + nuzzlesDogCount
