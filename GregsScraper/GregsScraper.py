@@ -40,8 +40,8 @@ print len(wordCount)
 for each in wordCount:
     print((each) + '\t' + str(wordCount[each]))
 
-email = 'skitch04@gmail.com'
-pswd = 'wonderland'
+email = ''
+pswd = ''
 
 driver = webdriver.Firefox()
 
