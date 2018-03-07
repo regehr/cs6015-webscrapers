@@ -1,4 +1,3 @@
-#stringOperations.py
 import string
 
 def puncRemove(myString):
