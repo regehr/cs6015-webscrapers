@@ -58,7 +58,8 @@ def beverageSearch(key, num):
         print 'No Product Information Available: ', key
         print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
-#Dictionary of Beverages
+# Dictionary of Beverages
+# Interesting Notes: Pappys are usually only there in the fall - I think Oct/Nov
 whiskies = {"Pappy_10" : '020146', "Pappy_12" : '021906', "Pappy_15" : '020150', "Pappy_20" : '021016',
 "Pappy_23" : '021030', "William_Larue_Weller" : '022086', "George_Stagg" : '018416', "Sazerac_18" : '027096',
 "Sazerac_Rye_6" : '027100', "EagleRare_17" : '017756', "Thomas_Handy" : '027036', "Stagg_Junior" : '021540',
