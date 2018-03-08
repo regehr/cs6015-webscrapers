@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 translator = Translator()
 
 if (len(sys.argv) == 4):
+    file = sys.argv[3] + sys.argv[2] + '.html'
     with urllib.request.urlopen(sys.argv[1]) as f:
         textbox = BeautifulSoup(f.read(), 'html.parser')
         for tag in textbox.find_all():
@@ -25,6 +26,7 @@ if (len(sys.argv) == 4):
 
 
 elif (len(sys.argv) == 3):
+    file = sys.argv[2] + '.html'
     with urllib.request.urlopen(sys.argv[1]) as f:
         textbox = BeautifulSoup(f.read(), 'html.parser')
         for tag in textbox.find_all():
@@ -40,15 +42,11 @@ else:
     print("or:  [program] [url] [to_language]")
     sys.exit()
 
-file = sys.argv[3] + sys.argv[2] + '.html'
 f = open(file,'w')
 page = str(textbox)
 f.write(page)
 f.close()
 
 #Change path to reflect file location
-filename = 'file:///Users/username/PycharmProjects/Translator/' + file
+filename = 'file:///Users/westleykirkham/PycharmProjects/Translator/' + file
 webbrowser.open_new_tab(filename)
-
-
-
