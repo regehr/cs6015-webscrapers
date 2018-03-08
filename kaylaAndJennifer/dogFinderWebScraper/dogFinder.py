@@ -3,38 +3,38 @@ from bs4 import BeautifulSoup
 import requests, sys, webbrowser
 
 if __name__ == '__main__':
-    if sys.argv[1] == "AustralianShepards":
-        shepardDogHumane = "https://www.utahhumane.org/adopt?f%5B0%5D=field_species%3A3&f%5B1%5D=field_primary_breed%3A63"
-        shepardDogBestFriends = "https://bestfriends.org/adopt/adopt-our-sanctuary/dogs?field_animal_primary_breed_tid_selective=2991&field_animal_secondary_breed_tid_selective=All&field_animal_age_value_selective=All&field_animal_size_value_selective=All&field_animal_color_tid_selective=All&field_animal_sex_value_selective=All&title="
-        shepardNuzzlesAndCo = "https://nuzzlesandco.org/adopt-a-pet/?species%5B%5D=Dog&gender%5B%5D&age_group%5B%5D&size%5B%5D&breed%5B%5D=Australian+Shepherd&wpv_post_id=969&wpv_view_count=855-CPID969&wpv_paged=1"
+    if sys.argv[1] == "AustralianShepherds":
+        shepherdDogHumane = "https://www.utahhumane.org/adopt?f%5B0%5D=field_species%3A3&f%5B1%5D=field_primary_breed%3A63"
+        shepherdDogBestFriends = "https://bestfriends.org/adopt/adopt-our-sanctuary/dogs?field_animal_primary_breed_tid_selective=2991&field_animal_secondary_breed_tid_selective=All&field_animal_age_value_selective=All&field_animal_size_value_selective=All&field_animal_color_tid_selective=All&field_animal_sex_value_selective=All&title="
+        shepherdNuzzlesAndCo = "https://nuzzlesandco.org/adopt-a-pet/?species%5B%5D=Dog&gender%5B%5D&age_group%5B%5D&size%5B%5D&breed%5B%5D=Australian+Shepherd&wpv_post_id=969&wpv_view_count=855-CPID969&wpv_paged=1"
 
 
-        print("-----------------Australian Shepards----------------")
-        humaneReq = requests.get(shepardDogHumane)
+        print("-----------------Australian Shepherds----------------")
+        humaneReq = requests.get(shepherdDogHumane)
         humaneData = humaneReq.text
         soup = BeautifulSoup(humaneData, "html.parser")
         humaneDogCount = len(soup.find_all('div', class_="item"))
         numDogString = str(humaneDogCount)
         print("Humane Society: " + numDogString)
-        webbrowser.open_new(shepardDogHumane)
+        webbrowser.open_new(shepherdDogHumane)
 
         print("------------------------------------------------------------")
-        bfReq = requests.get(shepardDogBestFriends)
+        bfReq = requests.get(shepherdDogBestFriends)
         bfData = bfReq.text
         soup = BeautifulSoup(bfData, "html.parser")
         bfDogCount = len(soup.find_all('div', class_="rg-animal"))
         eachDogStr = str(bfDogCount)
         print("Best Friends: " + eachDogStr)
-        webbrowser.open_new_tab(shepardDogBestFriends)
+        webbrowser.open_new_tab(shepherdDogBestFriends)
 
         print("------------------------------------------------------------")
-        nuzzlesReq = requests.get(shepardNuzzlesAndCo)
+        nuzzlesReq = requests.get(shepherdNuzzlesAndCo)
         nuzzlesData = nuzzlesReq.text
         soup = BeautifulSoup(nuzzlesData, "html.parser")
         nuzzlesDogCount = len(soup.find_all('div', class_="pet-result-img"))
         strNuzz = str(nuzzlesDogCount)
         print("Nuzzles And Co: " + strNuzz)
-        webbrowser.open_new_tab(shepardNuzzlesAndCo)
+        webbrowser.open_new_tab(shepherdNuzzlesAndCo)
 
         print("------------------------------------------------------------")
         totalNumDogs = humaneDogCount + bfDogCount + nuzzlesDogCount
@@ -139,4 +139,4 @@ if __name__ == '__main__':
         totalNumothersStr = str(totalNumothers)
         print("Total Number Available: " + totalNumothersStr)
     else:
-        print("Invalid Input! Choices: AustralianShepards, PitBulls, Cats, or Other")
+        print("Invalid Input! Choices: AustralianShepherds, PitBulls, Cats, or Other")
